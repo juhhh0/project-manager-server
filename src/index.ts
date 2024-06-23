@@ -1,28 +1,44 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-
-const projects = [
-  {
-    title: "To do list",
-  },
-  {
-    title: "Facebook clone",
-  },
-];
+import { addUser, getAllUsers } from "./db/user.js";
 
 const typeDefs = `#graphql
   type Project {
+    id: ID!
     title: String
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
   }
   
   type Query {
-    projects: [Project]
+    users: [User]
+  }
+
+  type Mutation {
+    addUser(user: UserInput!): User
+  }
+
+  input UserInput {
+    name: String!
+    email: String!
+    password: String!
   }
 `;
 
 const resolvers = {
   Query: {
-    projects: () => projects,
+    users: () => getAllUsers(),
+  },
+  Mutation: {
+    addUser: async (_, args) => {
+      const user = await addUser(args.user);
+      return user;
+    },
   },
 };
 
@@ -32,6 +48,5 @@ const server = new ApolloServer({
 });
 
 const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-  });
-  
+  listen: { port: 4000 },
+});
