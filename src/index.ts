@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { addUser, getAllUsers } from "./db/user.js";
+import { addUser, getAllUsers } from "./services/user.js";
 
 const typeDefs = `#graphql
   type Project {
