@@ -10,20 +10,25 @@ const getAllUsers = async () => {
 };
 
 const addUser = async (user: UserType) => {
+  if (!user.email) throw new Error("Email is required");
 
-  if(!user.email) throw new Error("Email is required");
+  if (user.name.length < 3)
+    throw new Error("Name must be at least 3 characters long");
 
-  if(user.name.length < 3) throw new Error("Name must be at least 3 characters long");
+  if (user.password.length < 6)
+    throw new Error("Password must be at least 6 characters long");
 
-  if(user.password.length < 6) throw new Error("Password must be at least 6 characters long");
-
-  const userExists = await prisma.user.findUnique({
+  const emailExists = await prisma.user.findUnique({
     where: { email: user.email },
   });
 
-  if (userExists) {
-    throw new Error("An account with this email already exists");
-  }
+  if (emailExists) throw new Error("An account with this email already exists");
+
+  const nameExists = await prisma.user.findUnique({
+    where: { name: user.name },
+  });
+
+  if (nameExists) throw new Error("An account with this name already exists");
 
   const hashedPassword = await bcrypt.hash(user.password, 10);
 
