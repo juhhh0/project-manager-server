@@ -8,13 +8,14 @@ import {
   getUserFromToken,
 } from "./services/user.js";
 import typeDefs from "./schema.js";
-import { createProject, getAllProjects, deleteProject, getUserProjects } from "./services/project.js";
+import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject } from "./services/project.js";
 
 const resolvers = {
   Query: {
     users: () => getAllUsers(),
     projects: () => getAllProjects(),
-    userProjects: (_, args, context) => getUserProjects(context.user.id)
+    userProjects: (_, args, context) => getUserProjects(context.user.id),
+    project: (_, args) => getProject(args.id),
   },
   Mutation: {
     login: async (_, args) => await loginUser(args.user),
@@ -22,6 +23,7 @@ const resolvers = {
     deleteUser: async (_, args) => await deleteUser(args.id),
     addProject: async (_, args, context) => await createProject(args.project, context.user.id),
     deleteProject: async (_, args) => await deleteProject(args.id),
+    updateProject: async (_, args) => await updateProject(args.id, args.project),
   },
 };
 

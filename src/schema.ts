@@ -2,6 +2,7 @@ const typeDefs = `#graphql
 type Project {
   id: ID!
   title: String!
+  description: String
 }
 
 type User {
@@ -15,6 +16,7 @@ type User {
 type Query {
   users: [User]
   projects: [Project]
+  project(id: ID!): Project
   userProjects: [Project]
 }
 
@@ -22,12 +24,18 @@ type Mutation {
   login(user: LoginInput!): User
   signup(user: SignupInput!): User
   deleteUser(id: ID!): User
-  addProject(project: ProjectInput!): Project
+  addProject(project: AddProjectInput!): Project
   deleteProject(id: ID!): Project
+  updateProject(id: ID!, project: UpdateProjectInput!): Project
 }
 
-input ProjectInput {
+input AddProjectInput {
     title: String!
+}
+
+input UpdateProjectInput {
+    title: String
+    description: String
 }
 
 input SignupInput {

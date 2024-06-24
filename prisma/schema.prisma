@@ -14,10 +14,11 @@ datasource db {
 }
 
 model Project {
-  id     String  @id @default(cuid())
-  title  String
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  id          String @id @default(cuid())
+  title       String
+  description String?
+  userId      String
+  user        User   @relation(fields: [userId], references: [id])
 }
 
 model User {
