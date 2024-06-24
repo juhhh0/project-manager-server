@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { UserType } from "../types/types";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import prisma from "../../prisma/prisma.js";
 
-const prisma = new PrismaClient();
 
 const createJsonWebToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -14,6 +13,19 @@ const createJsonWebToken = (id: string) => {
 const getAllUsers = async () => {
   const allUsers = await prisma.user.findMany();
   return allUsers;
+};
+
+const getUserFromToken = async (token) => {
+  try {
+    if (token) {
+      const user = jwt.verify(token, process.env.JWT_SECRET);
+      return user;
+    }
+
+    return null;
+  } catch (error) {
+    return null;
+  }
 };
 
 const loginUser = async (user: UserType) => {
@@ -30,7 +42,7 @@ const loginUser = async (user: UserType) => {
 
   if (!passwordMatch) throw new Error("Invalid password");
 
-  const token = createJsonWebToken(user.id)
+  const token = createJsonWebToken(existingUser.id)
 
   // @ts-ignore
   existingUser.token = token;
@@ -76,4 +88,4 @@ const deleteUser = async (id: string) => {
   return await prisma.user.delete({ where: { id } });
 }
 
-export { signupUser, getAllUsers , deleteUser, loginUser};
+export { signupUser, getAllUsers , deleteUser, loginUser, getUserFromToken};

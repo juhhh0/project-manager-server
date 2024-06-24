@@ -5,4 +5,9 @@ type UserType = {
   password: string;
 };
 
-export { UserType };
+type ProjectType = {
+  id: string;
+  title: string;
+}
+
+export { UserType, ProjectType };

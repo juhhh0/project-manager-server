@@ -1,7 +1,7 @@
 const typeDefs = `#graphql
 type Project {
   id: ID!
-  title: String
+  title: String!
 }
 
 type User {
@@ -14,12 +14,19 @@ type User {
 
 type Query {
   users: [User]
+  projects: [Project]
+  userProjects: [Project]
 }
 
 type Mutation {
   login(user: LoginInput!): User
   signup(user: SignupInput!): User
   deleteUser(id: ID!): User
+  addProject(project: ProjectInput!): Project
+}
+
+input ProjectInput {
+    title: String!
 }
 
 input SignupInput {
