@@ -35,6 +35,9 @@ const server = new ApolloServer({
 
 
 const context =  async ({ req }) => {
+
+  if(req.body.query.includes("login") || req.body.query.includes("signup")) return {};
+
   const authorization = req.headers.authorization || "";
   
   const token = authorization.split(" ")[1];
