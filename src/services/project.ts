@@ -15,6 +15,9 @@ const getUserProjects = async (userId: string) => {
 };
 
 const createProject = async (project: ProjectType, userId: string) => {
+
+  if (!project.title) throw new Error("Title is required");
+
   const newProject = await prisma.project.create({
     data: {
       title: project.title,
@@ -26,4 +29,11 @@ const createProject = async (project: ProjectType, userId: string) => {
   return newProject;
 };
 
-export { getAllProjects, getUserProjects, createProject };
+const deleteProject = async (id: string) => {
+    const project = await prisma.project.delete({
+        where: { id },
+    });
+    return project;
+}
+
+export { getAllProjects, getUserProjects, createProject, deleteProject };

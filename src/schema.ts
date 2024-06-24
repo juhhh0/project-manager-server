@@ -23,6 +23,7 @@ type Mutation {
   signup(user: SignupInput!): User
   deleteUser(id: ID!): User
   addProject(project: ProjectInput!): Project
+  deleteProject(id: ID!): Project
 }
 
 input ProjectInput {

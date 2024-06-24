@@ -8,7 +8,7 @@ import {
   getUserFromToken,
 } from "./services/user.js";
 import typeDefs from "./schema.js";
-import { createProject, getAllProjects, getUserProjects } from "./services/project.js";
+import { createProject, getAllProjects, deleteProject, getUserProjects } from "./services/project.js";
 
 const resolvers = {
   Query: {
@@ -21,6 +21,7 @@ const resolvers = {
     signup: async (_, args) => await signupUser(args.user),
     deleteUser: async (_, args) => await deleteUser(args.id),
     addProject: async (_, args, context) => await createProject(args.project, context.user.id),
+    deleteProject: async (_, args) => await deleteProject(args.id),
   },
 };
 
