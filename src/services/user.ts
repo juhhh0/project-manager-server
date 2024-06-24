@@ -1,15 +1,44 @@
 import { PrismaClient } from "@prisma/client";
 import { UserType } from "../types/types";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
+
+const createJsonWebToken = (id: string) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 
 const getAllUsers = async () => {
   const allUsers = await prisma.user.findMany();
   return allUsers;
 };
 
-const addUser = async (user: UserType) => {
+const loginUser = async (user: UserType) => {
+  if (!user.email) throw new Error("Email is required");
+  if (!user.password) throw new Error("Password is required");
+
+  const existingUser = await prisma.user.findUnique({
+    where: { email: user.email },
+  });
+
+  if (!existingUser) throw new Error("User does not exist");
+
+  const passwordMatch = await bcrypt.compare(user.password, existingUser.password);
+
+  if (!passwordMatch) throw new Error("Invalid password");
+
+  const token = createJsonWebToken(user.id)
+
+  // @ts-ignore
+  existingUser.token = token;
+
+  return existingUser;
+}
+
+const signupUser = async (user: UserType) => {
   if (!user.email) throw new Error("Email is required");
 
   if (user.name.length < 3)
@@ -47,4 +76,4 @@ const deleteUser = async (id: string) => {
   return await prisma.user.delete({ where: { id } });
 }
 
-export { addUser, getAllUsers , deleteUser};
+export { signupUser, getAllUsers , deleteUser, loginUser};
