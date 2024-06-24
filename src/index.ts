@@ -1,6 +1,6 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { addUser, getAllUsers } from "./services/user.js";
+import { addUser, deleteUser, getAllUsers } from "./services/user.js";
 import typeDefs from "./schema.js";
 
 
@@ -10,6 +10,7 @@ const resolvers = {
   },
   Mutation: {
     signup: async (_, args) => await addUser(args.user),
+    deleteUser: async (_, args) => await deleteUser(args.id),
   },
 };
 

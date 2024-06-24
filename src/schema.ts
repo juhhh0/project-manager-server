@@ -17,6 +17,7 @@ type Query {
 
 type Mutation {
   signup(user: SignupInput!): User
+  deleteUser(id: ID!): User
 }
 
 input SignupInput {

@@ -43,4 +43,8 @@ const addUser = async (user: UserType) => {
   return newUser;
 };
 
-export { addUser, getAllUsers };
+const deleteUser = async (id: string) => {
+  return await prisma.user.delete({ where: { id } });
+}
+
+export { addUser, getAllUsers , deleteUser};
