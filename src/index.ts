@@ -6,6 +6,7 @@ import {
   getAllUsers,
   loginUser,
   getUserFromToken,
+  getUserById
 } from "./services/user.js";
 import typeDefs from "./schema.js";
 import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject } from "./services/project.js";
@@ -13,6 +14,7 @@ import { createProject, getAllProjects, deleteProject, getUserProjects, getProje
 const resolvers = {
   Query: {
     users: () => getAllUsers(),
+    userProfile: (_, args, context) => getUserById(context.user.id),
     projects: () => getAllProjects(),
     userProjects: (_, args, context) => getUserProjects(context.user.id),
     project: (_, args) => getProject(args.id),
@@ -25,6 +27,9 @@ const resolvers = {
     deleteProject: async (_, args) => await deleteProject(args.id),
     updateProject: async (_, args) => await updateProject(args.id, args.project),
   },
+  User: {
+    projects: (parent) => getUserProjects(parent.id),
+  }
 };
 
 const server = new ApolloServer({

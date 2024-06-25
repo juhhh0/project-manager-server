@@ -88,4 +88,8 @@ const deleteUser = async (id: string) => {
   return await prisma.user.delete({ where: { id } });
 }
 
-export { signupUser, getAllUsers , deleteUser, loginUser, getUserFromToken};
+const getUserById = async (id: string) => {
+  return await prisma.user.findUnique({ where: { id } });
+}
+
+export { signupUser, getAllUsers , deleteUser, loginUser, getUserFromToken, getUserById};
