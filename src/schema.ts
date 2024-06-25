@@ -3,6 +3,7 @@ type Project {
   id: ID!
   title: String!
   description: String
+  userId: ID!
 }
 
 type User {
