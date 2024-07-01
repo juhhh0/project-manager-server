@@ -49,9 +49,20 @@ const updateProject = async (id: string, project: ProjectType) => {
 
     const updatedProject = await prisma.project.update({
         where: { id },
-        data: project,
+        data: {
+            title: project.title,
+            description: project.description,
+            content: project.content,
+        },
     });
     return updatedProject;
 }
 
-export { getAllProjects, getUserProjects, createProject, deleteProject, getProject, updateProject };
+const getProjectTasks = async (projectId: string) => {
+    const tasks = await prisma.task.findMany({
+        where: { projectId },
+    });
+    return tasks;
+}
+
+export { getAllProjects, getUserProjects, createProject, deleteProject, getProject, updateProject, getProjectTasks };

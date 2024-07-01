@@ -5,6 +5,14 @@ type Project {
   description: String
   content: String
   userId: ID!
+  tasks: [Task]
+}
+
+type Task {
+  id: ID!
+  title: String!
+  content: String
+  projectId: ID!
 }
 
 type User {

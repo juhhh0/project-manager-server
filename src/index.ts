@@ -9,7 +9,7 @@ import {
   getUserById
 } from "./services/user.js";
 import typeDefs from "./schema.js";
-import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject } from "./services/project.js";
+import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject, getProjectTasks } from "./services/project.js";
 
 const resolvers = {
   Query: {
@@ -29,6 +29,9 @@ const resolvers = {
   },
   User: {
     projects: (parent) => getUserProjects(parent.id),
+  },
+  Project: {
+    tasks: (parent) => getProjectTasks(parent.id)
   }
 };
 
