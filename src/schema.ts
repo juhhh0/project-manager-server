@@ -3,6 +3,7 @@ type Project {
   id: ID!
   title: String!
   description: String
+  content: String
   userId: ID!
 }
 
@@ -39,6 +40,7 @@ input AddProjectInput {
 input UpdateProjectInput {
     title: String
     description: String
+    content: String
 }
 
 input SignupInput {
