@@ -43,7 +43,7 @@ const deleteProject = async (id: string) => {
 };
 
 const updateProject = async (id: string, project: ProjectType) => {
-  if (project.title.length == 0) throw new Error("Title can't be empty");
+  if (project.title && project.title.length == 0) throw new Error("Title can't be empty");
 
   const updatedProject = await prisma.project.update({
     where: { id },
