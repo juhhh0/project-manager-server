@@ -39,6 +39,7 @@ type Mutation {
   addProject(project: AddProjectInput!): Project
   deleteProject(id: ID!): Project
   updateProject(id: ID!, project: UpdateProjectInput!): Project
+  addTask(projectId: ID!, task: AddTaskInput!): Task
 }
 
 input AddProjectInput {
@@ -60,6 +61,11 @@ input SignupInput {
 input LoginInput {
     email: String!
     password: String!
+}
+
+input AddTaskInput {
+  title: String!
+  content: String
 }
 `;
 

@@ -9,7 +9,7 @@ import {
   getUserById
 } from "./services/user.js";
 import typeDefs from "./schema.js";
-import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject, getProjectTasks } from "./services/project.js";
+import { createProject, getAllProjects, deleteProject, getUserProjects, getProject, updateProject, getProjectTasks, addTask } from "./services/project.js";
 
 const resolvers = {
   Query: {
@@ -26,6 +26,7 @@ const resolvers = {
     addProject: async (_, args, context) => await createProject(args.project, context.user.id),
     deleteProject: async (_, args) => await deleteProject(args.id),
     updateProject: async (_, args) => await updateProject(args.id, args.project),
+    addTask: async (_, args) => await addTask(args.projectId, args.task),
   },
   User: {
     projects: (parent) => getUserProjects(parent.id),
