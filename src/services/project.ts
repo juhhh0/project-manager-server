@@ -63,18 +63,7 @@ const getProjectTasks = async (projectId: string) => {
   return tasks;
 };
 
-const addTask = async (projectId: string, task: any) => {
-  const newTask = await prisma.task.create({
-    data: {
-      title: task.title,
-      content: task.content,
-      project: {
-        connect: { id: projectId },
-      },
-    },
-  });
-  return newTask;
-};
+
 
 export {
   getAllProjects,
@@ -84,5 +73,4 @@ export {
   getProject,
   updateProject,
   getProjectTasks,
-  addTask,
 };

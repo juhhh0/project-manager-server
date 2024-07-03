@@ -40,6 +40,7 @@ type Mutation {
   deleteProject(id: ID!): Project
   updateProject(id: ID!, project: UpdateProjectInput!): Project
   addTask(projectId: ID!, task: AddTaskInput!): Task
+  deleteTask(id: ID!): Task
 }
 
 input AddProjectInput {
