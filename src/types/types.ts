@@ -1,11 +1,11 @@
-type UserType = {
+export type UserType = {
   id: string;
   name: string;
   email: string;
   password: string;
 };
 
-type ProjectType = {
+export type ProjectType = {
   id: string;
   title: string;
   description: string;
@@ -19,4 +19,3 @@ type TaskType = {
   content: string;
 };
 
-export { UserType, ProjectType };

@@ -3,19 +3,18 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../../prisma/prisma.js";
 
-
-const createJsonWebToken = (id: string) => {
+export const createJsonWebToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
 
-const getAllUsers = async () => {
+export const getAllUsers = async () => {
   const allUsers = await prisma.user.findMany();
   return allUsers;
 };
 
-const getUserFromToken = async (token) => {
+export const getUserFromToken = async (token) => {
   try {
     if (token) {
       const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -28,7 +27,7 @@ const getUserFromToken = async (token) => {
   }
 };
 
-const loginUser = async (user: UserType) => {
+export const loginUser = async (user: UserType) => {
   if (!user.email) throw new Error("Email is required");
   if (!user.password) throw new Error("Password is required");
 
@@ -38,19 +37,22 @@ const loginUser = async (user: UserType) => {
 
   if (!existingUser) throw new Error("User does not exist");
 
-  const passwordMatch = await bcrypt.compare(user.password, existingUser.password);
+  const passwordMatch = await bcrypt.compare(
+    user.password,
+    existingUser.password
+  );
 
   if (!passwordMatch) throw new Error("Invalid password");
 
-  const token = createJsonWebToken(existingUser.id)
+  const token = createJsonWebToken(existingUser.id);
 
   // @ts-ignore
   existingUser.token = token;
 
   return existingUser;
-}
+};
 
-const signupUser = async (user: UserType) => {
+export const signupUser = async (user: UserType) => {
   if (!user.email) throw new Error("Email is required");
 
   if (user.name.length < 3)
@@ -84,12 +86,10 @@ const signupUser = async (user: UserType) => {
   return newUser;
 };
 
-const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string) => {
   return await prisma.user.delete({ where: { id } });
-}
+};
 
-const getUserById = async (id: string) => {
+export const getUserById = async (id: string) => {
   return await prisma.user.findUnique({ where: { id } });
-}
-
-export { signupUser, getAllUsers , deleteUser, loginUser, getUserFromToken, getUserById};
+};
