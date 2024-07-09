@@ -52,6 +52,8 @@ export const updateProject = async (id: string, project: ProjectType) => {
       title: project.title,
       description: project.description,
       content: project.content,
+      githubUrl: project.githubUrl,
+      hostingUrl: project.hostingUrl
     },
   });
   return updatedProject;

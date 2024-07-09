@@ -6,6 +6,8 @@ type Project {
   content: String
   userId: ID!
   tasks: [Task]
+  githubUrl: String
+  hostingUrl: String
 }
 
 type Task {
@@ -51,6 +53,8 @@ input UpdateProjectInput {
     title: String
     description: String
     content: String
+    githubUrl: String
+    hostingUrl: String
 }
 
 input SignupInput {

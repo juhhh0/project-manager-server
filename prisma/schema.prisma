@@ -21,6 +21,8 @@ model Project {
   userId      String
   user        User    @relation(fields: [userId], references: [id])
   tasks       Task[]
+  githubUrl String?
+  hostingUrl String?
 }
 
 model Task {

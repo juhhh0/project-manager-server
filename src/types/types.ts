@@ -11,6 +11,9 @@ export type ProjectType = {
   description: string;
   content: string;
   tasks: TaskType[];
+  userId: string;
+  githubUrl: string;
+  hostingUrl: string;
 };
 
 type TaskType = {
